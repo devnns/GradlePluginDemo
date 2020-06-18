@@ -1,0 +1,28 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies{
+    // gradle sdk
+    implementation gradleApi()
+    // groovy sdk
+    implementation localGroovy()
+}
+
+def NEXUS_REPOSITORY_URL="http://localhost:8081/nexus3/repository/maven-releases/"
+def NEXUS_USERNAME="admin"
+def NEXUS_PASSWORD="123456"
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'com.devnn.plugin'
+            pom.artifactId = 'myplugin'
+            pom.version = '1.0.0'
+            repository(url: NEXUS_REPOSITORY_URL) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            // maven本地仓库的目录
+//            repository(url: uri('../plugins'))
+        }
+    }
+}
